@@ -17,6 +17,9 @@ public class StringTest {
 	    assertThat("1234567890".trim(), is("1234567890"));
 	    assertThat("_ ".trim(), is("_"));
 	    assertThat(" _ ".trim(), is("_"));
+	    assertThat("    ".trim(), is(""));
+	    assertThat(" q q".trim(), is("q q"));
+	    assertThat("1  ".trim(), is("1"));
 	}
 	@Test
 	public void trimされない() {
