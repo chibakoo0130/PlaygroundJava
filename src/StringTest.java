@@ -1,6 +1,9 @@
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -9,6 +12,7 @@ import org.junit.runner.RunWith;
 public class StringTest {
 
     public static class trimテスト {
+
 	@Test
 	public void trimされる() {
 	    assertThat("".trim(), is(""));
@@ -21,6 +25,7 @@ public class StringTest {
 	    assertThat(" q q".trim(), is("q q"));
 	    assertThat("1  ".trim(), is("1"));
 	}
+
 	@Test
 	public void trimされない() {
 	    // 全角スペースはtrimされない
@@ -45,6 +50,23 @@ public class StringTest {
 	public void codePointAtされる() {
 	    assertThat(" ".codePointAt(0), is(32));
 	    assertThat("東".codePointAt(0), is(26481));
+	}
+    }
+
+    public static class getBytesテスト {
+
+	@Test
+	public void getBytesされる() {
+	    assertThat(Byte.toString("1".getBytes()[0]), is("49"));
+	    assertThat(Byte.toString("あ".getBytes()[0]), is("-29"));
+	    assertThat(Byte.toString("あ".getBytes(StandardCharsets.UTF_8)[0]), is("-29"));
+	    try {
+		assertThat(Byte.toString("あ".getBytes("Shift-JIS")[0]), is("-126"));
+	    } catch (UnsupportedEncodingException e) {
+		e.printStackTrace();
+	    }
+	    assertThat(Byte.toString("a".getBytes(StandardCharsets.UTF_8)[0]), is("97"));
+	    assertThat("".getBytes().length, is(0)); // 空文字をgetBytesすると長さ0の配列を返される
 	}
     }
 }
