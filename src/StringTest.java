@@ -69,4 +69,19 @@ public class StringTest {
 	    assertThat("".getBytes().length, is(0)); // 空文字をgetBytesすると長さ0の配列を返される
 	}
     }
+
+    public static class splitテスト {
+
+	@Test
+	public void splitされる() {
+	    String target = "boo:and:foo";
+	    assertThat(target.split(":"), is(new String[] { "boo", "and", "foo" }));
+	    // 後続の空文字要素は破棄される（split(regex, n)のn=0の挙動となっているため）
+	    assertThat(target.split("o"), is(new String[] { "b", "", ":and:f" }));
+	    assertThat(target.split(":and"), is(new String[] { "boo", ":foo" }));
+	    assertThat(target.split("oo"), is(new String[] { "b", ":and:f"}));
+	    assertThat("aoohoo".split("o"), is(new String[] { "a", "", "h" }));
+	    assertThat("aoohoo!".split("o"), is(new String[] { "a", "", "h", "", "!" }));
+	}
+    }
 }
