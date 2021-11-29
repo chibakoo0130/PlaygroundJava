@@ -73,7 +73,7 @@ public class StringTest {
     public static class splitテスト {
 
 	@Test
-	public void splitされる() {
+	public void splitされる_第2引数なし() {
 	    String target = "boo:and:foo";
 	    assertThat(target.split(":"), is(new String[] { "boo", "and", "foo" }));
 	    // 後続の空文字要素は破棄される（split(regex, n)のn=0の挙動となっているため）
@@ -82,6 +82,19 @@ public class StringTest {
 	    assertThat(target.split("oo"), is(new String[] { "b", ":and:f"}));
 	    assertThat("aoohoo".split("o"), is(new String[] { "a", "", "h" }));
 	    assertThat("aoohoo!".split("o"), is(new String[] { "a", "", "h", "", "!" }));
+	}
+
+	@Test
+	public void splitされる_第2引数あり() {
+	    String target = "boo:and:foo";
+	    // 第2引数が負の時は制限なく配列が生成される
+	    assertThat(target.split("o", -1), is(new String[] { "b", "", ":and:", "" }));
+	    // 第2引数が0の時は後続の空文字要素は破棄
+	    assertThat(target.split(":", 0), is(new String[] { "boo", "and", "foo" }));
+	    assertThat(target.split("o", 0), is(new String[] { "b", "", ":and:" }));
+	    assertThat(target.split(":", 1), is(new String[] { "boo:and:foo" }));
+	    assertThat(target.split(":", 2), is(new String[] { "boo", "and:foo" }));
+	    assertThat(target.split(":", 4), is(new String[] { "boo", "and", "foo" }));
 	}
     }
 }
