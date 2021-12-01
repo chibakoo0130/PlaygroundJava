@@ -11,6 +11,19 @@ import org.junit.runner.RunWith;
 @RunWith(Enclosed.class)
 public class StringTest {
 
+    public static class lengthテスト {
+
+	@Test
+	public void lengthされる() {
+	    assertThat("".length(), is(0));
+	    assertThat(" ".length(), is(1));
+	    assertThat("　".length(), is(1));
+	    assertThat("あ".length(), is(1));
+	    assertThat("縺".length(), is(1));
+	    assertThat("あいうえお".length(), is(5));
+	}
+    }
+
     public static class trimテスト {
 
 	@Test
@@ -88,10 +101,11 @@ public class StringTest {
 	public void splitされる_第2引数あり() {
 	    String target = "boo:and:foo";
 	    // 第2引数が負の時は制限なく配列が生成される
-	    assertThat(target.split("o", -1), is(new String[] { "b", "", ":and:", "" }));
+	    assertThat(target.split("o", -1), is(new String[] { "b", "", ":and:f", "", "" }));
+	    assertThat(target.split("o", -100), is(new String[] { "b", "", ":and:f", "", "" }));
 	    // 第2引数が0の時は後続の空文字要素は破棄
 	    assertThat(target.split(":", 0), is(new String[] { "boo", "and", "foo" }));
-	    assertThat(target.split("o", 0), is(new String[] { "b", "", ":and:" }));
+	    assertThat(target.split("o", 0), is(new String[] { "b", "", ":and:f" }));
 	    assertThat(target.split(":", 1), is(new String[] { "boo:and:foo" }));
 	    assertThat(target.split(":", 2), is(new String[] { "boo", "and:foo" }));
 	    assertThat(target.split(":", 4), is(new String[] { "boo", "and", "foo" }));
