@@ -24,6 +24,17 @@ public class StringTest {
 	}
     }
 
+    public static class isEmptyテスト {
+
+	@Test
+	public void isEmptyされる() {
+	    assertThat("".isEmpty(), is(true));
+	    assertThat(" ".isEmpty(), is(false));
+	    assertThat("　".isEmpty(), is(false));
+	    assertThat("aiueo".isEmpty(), is(false));
+	}
+    }
+
     public static class trimテスト {
 
 	@Test
