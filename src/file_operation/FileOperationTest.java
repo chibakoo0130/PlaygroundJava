@@ -1,6 +1,6 @@
 package file_operation;
 
-import static file_operation.FileOperation.outputFile;
+import static file_operation.FileOperation.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -15,8 +15,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 
+@RunWith(Enclosed.class)
 public class FileOperationTest {
 
     public static final String FILE_SEPARATOR = File.separator;
@@ -56,4 +60,61 @@ public class FileOperationTest {
 	assertThat(actual, is(expected));
     }
 
+    public static class writerのwriteとappendの違い {
+
+	@Before
+	public void setUp() {
+	    addContents();
+	}
+
+	@Test
+	public void writeするだけ() {
+		String filepath1 = CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR +
+			"file_operation" + FILE_SEPARATOR + "sample" + FILE_SEPARATOR + "addSample1.txt";
+
+		String actual = readFile(filepath1);
+		String expected = "123";
+		assertThat(actual, is(expected));
+	}
+
+	@Test
+	public void appendするだけ() {
+		String filepath2 = CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR +
+			"file_operation" + FILE_SEPARATOR + "sample" + FILE_SEPARATOR + "addSample2.txt";
+		String actual = readFile(filepath2);
+		String expected = "123";
+		assertThat(actual, is(expected));
+	}
+
+	@Test
+	public void 一度closeして再度ファイルを開きwriteする() {
+		String filepath3 = CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR +
+			"file_operation" + FILE_SEPARATOR + "sample" + FILE_SEPARATOR + "addSample3.txt";
+		String actual = readFile(filepath3);
+		String expected = "3";
+		assertThat(actual, is(expected));
+	}
+
+	@Test
+	public void 一度closeして再度ファイルを開きappendする() {
+		String filepath4 = CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR +
+			"file_operation" + FILE_SEPARATOR + "sample" + FILE_SEPARATOR + "addSample.txt";
+		String actual =readFile(filepath4);
+		String expected = "3";
+		assertThat(actual, is(expected));
+	}
+
+	private static String readFile(String filepath) {
+		Path path1 = Paths.get(filepath);
+		StringBuilder sb = new StringBuilder();
+		try (BufferedReader br = Files.newBufferedReader(path1, StandardCharsets.UTF_8)) {
+		    for (String line; (line = br.readLine()) != null; ) {
+			sb.append(line);
+		    }
+		} catch (IOException e) {
+		    System.out.println(e);
+		}
+		return sb.toString();
+	}
+    }
 }
