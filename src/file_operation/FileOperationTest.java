@@ -28,36 +28,38 @@ public class FileOperationTest {
 
     public static final String  DS_STORE = ".DS_Store";
 
-    @Test
-    public void Fileコンストラクタでディレクトリを指定してファイルとディレクトリのリストを取得する() {
-	File dir = new File(CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR + "file_operation" + FILE_SEPARATOR);
-	List<String> tmp = new ArrayList<String>(Arrays.asList(dir.list()));
-	// MacOSで.DS_Storeファイルがある場合は除外する
-	if (tmp.contains(DS_STORE)) {
-	    tmp.remove(DS_STORE);
-	}
+    public static class FileやPathの動作を見る {
 
-	assertThat(tmp.toArray(new String[tmp.size()]), is(new String[] {"FileOperationTest.java", "FileOperation.java", "sample" }));
-    }
-
-    @Test
-    public void 文字が書き込まれる() {
-	String filepath = CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR +
-		"file_operation" + FILE_SEPARATOR + "sample" + FILE_SEPARATOR + "sample.txt";
-	outputFile("あいうえお", filepath);
-	Path path = Paths.get(filepath);
-	StringBuilder sb = new StringBuilder();
-	try(BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-
-	    for (String line; (line = br.readLine()) != null; ) {
-		sb.append(line);
+	@Test
+	    public void Fileコンストラクタでディレクトリを指定してファイルとディレクトリのリストを取得する() {
+		File dir = new File(CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR + "file_operation" + FILE_SEPARATOR);
+		List<String> tmp = new ArrayList<String>(Arrays.asList(dir.list()));
+		// MacOSで.DS_Storeファイルがある場合は除外する
+		if (tmp.contains(DS_STORE)) {
+		    tmp.remove(DS_STORE);
+		}
+		assertThat(tmp.toArray(new String[tmp.size()]), is(new String[] {"FileOperationTest.java", "FileOperation.java", "sample" }));
 	    }
-	} catch (IOException e) {
-	    System.out.println(e);
-	}
-	String actual = sb.toString();
-	String expected = "あいうえお";
-	assertThat(actual, is(expected));
+
+	@Test
+	    public void 文字が書き込まれる() {
+		String filepath = CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR +
+			"file_operation" + FILE_SEPARATOR + "sample" + FILE_SEPARATOR + "sample.txt";
+		outputFile("あいうえお", filepath);
+		Path path = Paths.get(filepath);
+		StringBuilder sb = new StringBuilder();
+		try(BufferedReader br = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+
+		    for (String line; (line = br.readLine()) != null; ) {
+			sb.append(line);
+		    }
+		} catch (IOException e) {
+		    System.out.println(e);
+		}
+		String actual = sb.toString();
+		String expected = "あいうえお";
+		assertThat(actual, is(expected));
+	    }
     }
 
     public static class writerのwriteとappendの違い {
