@@ -1,6 +1,7 @@
 package file_operation;
 
 import static file_operation.FileOperation.*;
+import static file_operation.Filepath.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -23,10 +24,7 @@ import org.junit.runner.RunWith;
 @RunWith(Enclosed.class)
 public class FileOperationTest {
 
-    public static final String FILE_SEPARATOR = File.separator;
-    public static final String CURRENT_DIR = System.getProperty("user.dir");
-
-    public static final String  DS_STORE = ".DS_Store";
+    private static final String  DS_STORE = ".DS_Store";
 
     public static class FileやPathの動作を見る {
 
@@ -38,7 +36,7 @@ public class FileOperationTest {
 		if (tmp.contains(DS_STORE)) {
 		    tmp.remove(DS_STORE);
 		}
-		assertThat(tmp.toArray(new String[tmp.size()]), is(new String[] {"FileOperationTest.java", "FileOperation.java", "sample" }));
+		assertThat(tmp.toArray(new String[tmp.size()]), is(new String[] {"FileOperationTest.java", "FileOperation.java", "sample", "Filepath.java" }));
 	    }
 
 	@Test
@@ -71,9 +69,6 @@ public class FileOperationTest {
 
 	@Test
 	public void writeするだけ() {
-		String filepath1 = CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR +
-			"file_operation" + FILE_SEPARATOR + "sample" + FILE_SEPARATOR + "addSample1.txt";
-
 		String actual = readFile(filepath1);
 		String expected = "123";
 		assertThat(actual, is(expected));
@@ -81,8 +76,6 @@ public class FileOperationTest {
 
 	@Test
 	public void appendするだけ() {
-		String filepath2 = CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR +
-			"file_operation" + FILE_SEPARATOR + "sample" + FILE_SEPARATOR + "addSample2.txt";
 		String actual = readFile(filepath2);
 		String expected = "123";
 		assertThat(actual, is(expected));
@@ -90,8 +83,6 @@ public class FileOperationTest {
 
 	@Test
 	public void 一度closeして再度ファイルを開きwriteする() {
-		String filepath3 = CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR +
-			"file_operation" + FILE_SEPARATOR + "sample" + FILE_SEPARATOR + "addSample3.txt";
 		String actual = readFile(filepath3);
 		String expected = "3";
 		assertThat(actual, is(expected));
@@ -99,8 +90,6 @@ public class FileOperationTest {
 
 	@Test
 	public void 一度closeして再度ファイルを開きappendする() {
-		String filepath4 = CURRENT_DIR + FILE_SEPARATOR + "src" + FILE_SEPARATOR +
-			"file_operation" + FILE_SEPARATOR + "sample" + FILE_SEPARATOR + "addSample.txt";
 		String actual =readFile(filepath4);
 		String expected = "3";
 		assertThat(actual, is(expected));
