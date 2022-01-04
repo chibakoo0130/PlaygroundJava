@@ -1,9 +1,9 @@
 package file_operation;
 
-import static file_operation.Filepath.filepath1;
-import static file_operation.Filepath.filepath2;
-import static file_operation.Filepath.filepath3;
-import static file_operation.Filepath.filepath4;
+import static file_operation.Filepath.ADD_PATH1;
+import static file_operation.Filepath.ADD_PATH2;
+import static file_operation.Filepath.ADD_PATH3;
+import static file_operation.Filepath.ADD_PATH4;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class FileOperation {
     public static void addContents() {
 	// 1:writer.write
 
-	Path path1 = Paths.get(filepath1	);
+	Path path1 = Paths.get(ADD_PATH1);
 	try(BufferedWriter bw = Files.newBufferedWriter(path1, StandardCharsets.UTF_8)) {
 	    bw.write("1");
 	    bw.write("2");
@@ -37,7 +37,7 @@ public class FileOperation {
 	}
 
 	// 2:writer.append
-	Path path2 = Paths.get(filepath2);
+	Path path2 = Paths.get(ADD_PATH2);
 	try(BufferedWriter bw = Files.newBufferedWriter(path2, StandardCharsets.UTF_8)) {
 	    bw.append("1");
 	    bw.append("2");
@@ -47,7 +47,7 @@ public class FileOperation {
 	}
 
 	// 3:一度closeして再度ファイルを開きwriteする
-	Path path3 = Paths.get(filepath3);
+	Path path3 = Paths.get(ADD_PATH3);
 	try (BufferedWriter bw = Files.newBufferedWriter(path3, StandardCharsets.UTF_8)) {
 	    bw.write("1");
 	    bw.write("2");
@@ -62,7 +62,7 @@ public class FileOperation {
 	}
 
 	// 4:一度closeして再度ファイルを開きappendする
-	Path path4 = Paths.get(filepath4);
+	Path path4 = Paths.get(ADD_PATH4);
 	try (BufferedWriter bw = Files.newBufferedWriter(path4, StandardCharsets.UTF_8)) {
 	    bw.write("1");
 	    bw.write("2");
