@@ -3,9 +3,14 @@ package array_collection;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+
+import base.Student;
 
 @RunWith(Enclosed.class)
 public class ArrayTest {
@@ -73,5 +78,76 @@ public class ArrayTest {
            int[] array = { 1, 2, 3 };
            int value = array[-100];
        }
+    }
+
+    public static class copyofのテスト {
+
+        private int[] array = { 1, 2, 3, 4, 5 };
+
+        @Test
+        public void 旧型のSystem_arraycopy() {
+            int[] copied = new int[array.length + 2];
+            System.arraycopy(array, 0, copied, 0, array.length);
+            assertThat(copied.length, is(7));
+            assertThat(copied, is(new int[] { 1, 2, 3, 4, 5, 0, 0 }));
+        }
+
+        @Test
+        public void Arrays_copyofする() {
+            int[] copied = Arrays.copyOf(array, array.length + 3);
+            assertThat(copied, is(new int[] { 1, 2, 3, 4, 5, 0, 0, 0 }));
+        }
+    }
+
+    public static class sortのテスト {
+
+        private final Student[] students = {
+                new Student("John", 54),
+                new Student("Kenny", 81),
+                new Student("Mary", 32)
+        };
+
+        @Test
+        public void プリミティブ型クラスをsortする() {
+            int[] intArray = { 23, 1, 14, 5, 100 };
+            Arrays.sort(intArray);
+            assertThat(intArray, is(new int[] { 1, 5, 14, 23, 100 }));
+        }
+
+        @Test
+        public void 降順でsortする1() {
+            // 並び順を指定するため、sort(T[], Comparator)を使う。
+            // T[]のため、ラッパークラスを使う。
+            Integer[] integerArray = { 12, 3, 7, 91, 84 };
+            Comparator<Integer> c = new Comparator<Integer>() {
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return o2.compareTo(o1);
+                }
+            };
+            Arrays.sort(integerArray, c);
+            assertThat(integerArray, is(new Integer[] { 91, 84, 12, 7, 3  }));
+        }
+
+        @Test
+        public void 参照型クラスをsortする() {
+
+            Comparator<Student> c = new Comparator<Student>() {
+                @Override
+                public int compare(Student o1, Student o2) {
+                    return Integer.compare(o1.getScore(), o2.getScore());
+                }
+            };
+
+            Arrays.sort(students, c);
+            assertThat(students[0].getName(), is("Mary"));
+            assertThat(students[1].getName(), is("John"));
+            assertThat(students[2].getName(), is("Kenny"));
+        }
+
+        @Test(expected = ClassCastException.class)
+        public void Comaratorを実装せずClassCastException() {
+            Arrays.sort(students);
+        }
     }
 }
