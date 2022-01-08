@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 public class ArrayTest {
 
     public static class 初期化テスト {
+
         @Test
         public void 配列の初期化1() {
             int[] array1 = new int[5];
@@ -40,24 +41,37 @@ public class ArrayTest {
 
         @Test
         public void 配列の初期化_メソッド引数() {
-            arraySysout(new String[] { "a", "b", "c" });
-            // arraySysout({ "a", "b", "c" }); コンパイルエラー
+            getArrayBundleStr(new String[] { "a", "b", "c" });
+            // getArrayBundleStr({ "a", "b", "c" }); コンパイルエラー
         }
 
-        private static void arraySysout(String[] array ) {
+        private static String getArrayBundleStr(String[] array ) {
+            StringBuilder temp = new StringBuilder();
             for (String str : array) {
-                System.out.println(str);
+                temp.append(str);
             }
+            return temp.toString();
         }
     }
 
+    public static class ArrayIndexOutOfBoundsException発生のテスト {
 
+        @Test(expected = ArrayIndexOutOfBoundsException.class)
+        public void 配列の長さを超えたインデックス指定での発生() {
+            int[] array = new int[2];
+            int value = array[2];
+         }
 
+       @Test(expected = ArrayIndexOutOfBoundsException.class)
+       public void 配列のインデックスにマイナスの値指定での発生1() {
+           int[] array = { 1, 2, 3 };
+           int value = array[-1];
+       }
 
-
-
-
-
-
-
+       @Test(expected = ArrayIndexOutOfBoundsException.class)
+       public void 配列のインデックスにマイナスの値指定での発生2() {
+           int[] array = { 1, 2, 3 };
+           int value = array[-100];
+       }
+    }
 }
