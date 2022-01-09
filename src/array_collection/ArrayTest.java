@@ -150,4 +150,22 @@ public class ArrayTest {
             Arrays.sort(students);
         }
     }
+
+    public static class binarySearchのテスト {
+
+        private final int[] array = { 1, 2, 3, 3, 7, 11, 17, 25, 31, 32 };
+
+        @Test
+        public void 検索対象がある場合は検索対象のインデックスが返される() {
+            // 配列がソートされていない場合は不定の値が返されるので、使用には事前にソートが必要
+            assertThat(Arrays.binarySearch(array, 7), is(4));
+        }
+
+        @Test
+        public void 検索対象がない場合はある想定でインデックスが返される() {
+            // 検索対象が入ると想定されるインデックスの負数-1のインデックス
+            assertThat(Arrays.binarySearch(array, 8), is(-6));
+        }
+    }
+
 }
