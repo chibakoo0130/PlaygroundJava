@@ -81,6 +81,27 @@ public class Datetime {
         public void Tを脱字した日時でparseする() {
             LocalDateTime.parse("2021-01-1622:13:10.456");
         }
+    }
 
+    public static class formatのテスト {
+
+        @Test
+        public void _2020年1月1日の日付文字列を生成する() {
+            LocalDate date = LocalDate.of(2020, 1, 1);
+            assertThat(DateTimeFormatter.ofPattern("yyyy/MM/dd").format(date), is("2020/01/01"));
+        }
+
+        @Test
+        public void _10時20分30秒400の時刻文字列を生成する() {
+            LocalTime time = LocalTime.of(10, 20, 30, 400_000_000);
+            assertThat(DateTimeFormatter.ofPattern("HH時mm分ss秒400").format(time), is("10時20分30秒400"));
+        }
+
+        @Test
+        public void _2021年1月16日22時13分10秒の日時文字列を生成する() {
+            LocalDateTime datetime = LocalDateTime.of(2021, 1, 16, 22, 13, 10);
+            assertThat(DateTimeFormatter.ofPattern("yyyy年MM月dd日HH時mm分ss秒").format(datetime),
+                    is("2021年01月16日22時13分10秒"));
+        }
     }
 }
