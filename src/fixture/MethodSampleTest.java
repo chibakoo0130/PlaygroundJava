@@ -1,5 +1,6 @@
 package fixture;
 
+import static fixture.MethodSample.compare;
 import static fixture.MethodSample.isGreaterThan;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -9,6 +10,8 @@ import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
+
+import fixture.ImprovedCommonFixture.Param2Fixture;
 
 @RunWith(Enclosed.class)
 public class MethodSampleTest {
@@ -47,5 +50,24 @@ public class MethodSampleTest {
         }
     }
 
+    @RunWith(Theories.class)
+    public static class ImprovedCommonFixtureを用いる {
 
+        @DataPoints
+        public static Param2Fixture<?, ?>[] params = {
+                new Param2Fixture<Integer, Boolean>(1, 2, true),
+                new Param2Fixture<Integer, Boolean>(-1, 0, true),
+                new Param2Fixture<Integer, Boolean>(-2, -1, true),
+                new Param2Fixture<Integer, Boolean>(0, 0, false),
+                new Param2Fixture<Integer, Boolean>(-1, -2, false),
+                new Param2Fixture<Integer, Boolean>(0, -1, false),
+                new Param2Fixture<Integer, Boolean>(3, 1, false),
+        };
+
+        @Theory
+        public void testCompare(Param2Fixture<Integer, Boolean> f) {
+            assertThat(compare(f.param1, f.p2), is(f.retVal));
+        }
+
+    }
 }

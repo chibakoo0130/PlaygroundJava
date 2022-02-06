@@ -18,5 +18,4 @@ public class CommonFixture<P, R> {
         this.input = input;
         this.result = result;
     }
-
 }

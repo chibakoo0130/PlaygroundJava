@@ -24,5 +24,4 @@ public class MethodSample {
     public static boolean compare(int base, int target) {
         return target > base ? true : false;
     }
-
 }
