@@ -167,5 +167,4 @@ public class ArrayTest {
             assertThat(Arrays.binarySearch(array, 8), is(-6));
         }
     }
-
 }
